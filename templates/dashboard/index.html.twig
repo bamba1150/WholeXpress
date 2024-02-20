@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content_layout %}
+     <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Base de Données Clientèle</h1>
+                    
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Table des Clients</h6>
+                        </div>
+                        <div class="row m-4">
+                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modelId">
+                  Enregistrer un client
+                </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Code Client</th>
+                                            <th>Nom Complet</th>
+                                            <th>Email</th>
+                                            <th>Adresse</th>
+                                            <th>Commercial en Charge</th>
+                                            <th>Type de Client</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                    {% for data in datas %}
+                                        <tr>
+                                            <td>{{data.id}}</td>
+                                            <td>{{data.NomCompletClient}}</td>
+                                            <td>{{data.EmailClient}}</td>
+                                            <td>{{data.AdresseClient}}</td>
+                                            <td>{{data.getCommercial().getNomComplet()}}</td>
+                                            <td>
+                                            {{data.getType}}
+                                            </td>
+                                            <td style="width:250px;">
+                                                <a name="" id="" class="btn btn-success" href="#" role="button">Details</a>
+                                                <a name="" id="" class="btn btn-danger" href="#" role="button">Supprimer </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+                <!-- Button trigger modal -->
+                
+                
+                <!-- Modal -->
+                <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title">Enregistrement d'un nouveau client</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="form-group p-4">
+                                      <label for="nom">Nom Complet</label>
+                                      <input type="text" name="" id="" class="form-control" placeholder="Entrer le nom du client" aria-describedby="helpId">
+                                      <br>
+                                      <label for="email">Email</label>
+                                      <input type="text" name="" id="" class="form-control" placeholder="xyz@gmail.com" aria-describedby="helpId">
+                                      <br>
+                                      <label for="adresse">Adresse</label>
+                                      <input type="text" name="" id="" class="form-control" placeholder="Entrer l'adresse du client" aria-describedby="helpId">
+                                      <br>
+                                      <div class="form-group">
+                                        <label for="">Commercial en Charge</label>
+                                        <select class="form-control" name="" id="">
+                                          <option></option>
+                                          <option></option>
+                                          <option></option>
+                                        </select>
+                                      </div>
+                                    
+                                      <div class="form-group">
+                                        <label for="">Type de Client</label>
+                                        <select class="form-control" name="" id="">
+                                          <option></option>
+                                          <option></option>
+                                          <option></option>
+                                        </select>
+                                      </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-success">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    $('#exampleModal').on('show.bs.modal', event => {
+                        var button = $(event.relatedTarget);
+                        var modal = $(this);
+                        // Use above variables to manipulate the DOM
+                        
+                    });
+                </script>
+{% endblock content_layout %}
+
+

@@ -1,0 +1,27 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Changes to be committed:
+#	modified:   .env
+#	modified:   composer.json
+#	modified:   composer.lock
+#	modified:   config/bundles.php
+#	modified:   symfony.lock
+#
+# Untracked files:
+#	WholeSales/
+#	WholeXpress/
+#	compose.override.yaml
+#	compose.yaml
+#	config/packages/doctrine.yaml
+#	config/packages/doctrine_migrations.yaml
+#	config/packages/monolog.yaml
+#	config/packages/security.yaml
+#	config/routes/security.yaml
+#	migrations/
+#	src/DataFixtures/
+#	src/Entity/
+#	src/Repository/
+#

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content_layout %}
+      <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Mes Clients</h1>
+                    
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Table des Clients</h6>
+                        </div>
+                        <div class="row m-4">
+                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modelId">
+                Sourcing Ali Baba
+                </button>
+                 <button type="button" class="btn btn-primary ml-4" data-toggle="modal" data-target="#modelId">
+                Sourcing 1688
+                </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Code Client</th>
+                                            <th>Nom Complet</th>
+                                            <th>Email</th>
+                                            <th>Adresse</th>
+                                            <th>Commercial en Charge</th>
+                                            <th>Type de Client</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                   
+                                        
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+{% endblock content_layout %}

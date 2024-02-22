@@ -2,27 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\AC;
+
+use App\Entity\CA;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<AC>
  *
- * @method AC|null find($id, $lockMode = null, $lockVersion = null)
- * @method AC|null findOneBy(array $criteria, array $orderBy = null)
- * @method AC[]    findAll()
- * @method AC[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CA|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CA|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CA[]    findAll()
+ * @method CA[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ACRepository extends ServiceEntityRepository
+class CARepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AC::class);
+        parent::__construct($registry, CA::class);
     }
 
 //    /**
-//     * @return AC[] Returns an array of AC objects
+//     * @return CA[] Returns an array of AC objects
 //     */
 //    public function findByExampleField($value): array
 //    {

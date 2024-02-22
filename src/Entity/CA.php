@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ACRepository;
+use App\Repository\CARepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ACRepository::class)]
+#[ORM\Entity(repositoryClass: CARepository::class)]
 class CA extends User
 {
    #[ORM\OneToMany(mappedBy: 'ca', targetEntity: Achat::class)]

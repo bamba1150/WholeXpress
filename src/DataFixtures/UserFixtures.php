@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     
 
@@ -17,6 +17,7 @@ class UserFixtures extends Fixture
     {
     $users = ["Zahra Mane", "Farba Diouf", "Aissatou Ndiaye", "Bertrand Moupinga", "Georges Zogo"];
     $usernames = ["zahra", "farba","aissatou","bertrand","georges"];
+   
 
         if (count($users) == count($usernames))
         {   
@@ -32,6 +33,7 @@ class UserFixtures extends Fixture
             -> setTelephone("77548641".$i)
             -> setEmail($usernames."@gmail.com");
             
+           
         }
         $manager -> persist($user);
        }

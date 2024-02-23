@@ -20,6 +20,7 @@ class DashboardController extends AbstractController
     #[Route('/cc/dashboard/createClient', name: 'app_cc_createClient', methods:["POST"])]
     public function create(): Response
     {
+       dd($_POST);
         return $this->render('dashboard/index.html.twig');
     }
 

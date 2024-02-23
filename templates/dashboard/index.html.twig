@@ -69,56 +69,58 @@
                 <!-- Button trigger modal -->
                 
                 
-                <!-- Modal -->
-                <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                                <div class="modal-header">
-                                        <h5 class="modal-title">Enregistrement d'un nouveau client</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                    </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="form-group p-4">
-                                      <label for="nom">Nom Complet</label>
-                                      <input type="text" name="" id="" class="form-control" placeholder="Entrer le nom du client" aria-describedby="helpId">
-                                      <br>
-                                      <label for="email">Email</label>
-                                      <input type="text" name="" id="" class="form-control" placeholder="xyz@gmail.com" aria-describedby="helpId">
-                                      <br>
-                                      <label for="adresse">Adresse</label>
-                                      <input type="text" name="" id="" class="form-control" placeholder="Entrer l'adresse du client" aria-describedby="helpId">
-                                      <br>
-                                      <div class="form-group">
-                                        <label for="">Commercial en Charge</label>
-                                        <select class="form-control" name="" id="">
-                                          <option></option>
-                                          <option></option>
-                                          <option></option>
-                                        </select>
-                                      </div>
-                                    
-                                      <div class="form-group">
-                                        <label for="">Type de Client</label>
-                                        <select class="form-control" name="" id="">
-                                          <option></option>
-                                          <option></option>
-                                          <option></option>
-                                        </select>
-                                      </div>
-                                      
-                                    </div>
-                                </div>
+               <!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enregistrement d'un nouveau client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form method="POST" action="{{ path('app_cc_createClient') }}">
+                        <div class="form-group p-4">
+                            <!-- Vos champs de formulaire ici -->
+                            <label for="nom">Nom Complet</label>
+                            <input type="text" name="nom" class="form-control" placeholder="Entrer le nom du client" aria-describedby="helpId">
+                            <br>
+                            <label for="email">Email</label>
+                            <input type="text" name="email" class="form-control" placeholder="xyz@gmail.com" aria-describedby="helpId">
+                            <br>
+                            <label for="adresse">Adresse</label>
+                            <input type="text" name="adresse" class="form-control" placeholder="Entrer l'adresse du client" aria-describedby="helpId">
+                            <br>
+                            <div class="form-group">
+                                <label for="commercial">Commercial en Charge</label>
+                                <select class="form-control" name="commercial" id="commercial">
+                                  <option value="1">Commercial 1</option>
+                                  <option value="2">Commercial 2</option>
+                                  <option value="3">Commercial 3</option>
+                                </select>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-                                <button type="button" class="btn btn-success">Enregistrer</button>
+                        
+                            <div class="form-group">
+                                <label for="typeClient">Type de Client</label>
+                                <select class="form-control" name="typeClient" id="typeClient">
+                                  <option value="1">Type 1</option>
+                                  <option value="2">Type 2</option>
+                                  <option value="3">Type 3</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
                 
                 <script>
                     $('#exampleModal').on('show.bs.modal', event => {

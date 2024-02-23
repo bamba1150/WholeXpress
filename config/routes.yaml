@@ -4,4 +4,7 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-  
+cc_dashboard_create_client:
+    path: /cc/dashboard/createClient
+    methods: ['POST']
+    controller: App\Controller\DashboardController::createClient

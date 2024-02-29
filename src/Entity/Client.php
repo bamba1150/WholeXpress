@@ -32,7 +32,7 @@ class Client
     protected ?string $adresseClient = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $commercial = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]

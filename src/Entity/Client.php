@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
-use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\InheritanceType; 
 
 #[InheritanceType("JOINED")]
 #[DiscriminatorColumn("type")]
@@ -32,7 +32,7 @@ class Client
     protected ?string $adresseClient = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $commercial = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]

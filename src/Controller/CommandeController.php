@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommandeController extends AbstractController
 {
-    #[Route('/commande', name: 'app_commande')]
+    #[Route('/cc/bufferCommande', name: 'app_cc_bufferCommande', methods:["GET"])]
     public function index(): Response
     {
         return $this->render('commande/index.html.twig', [
-            'controller_name' => 'CommandeController',
+            
         ]);
     }
 }

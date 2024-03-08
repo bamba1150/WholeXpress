@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240306110458 extends AbstractMigration
+final class Version20240307104816 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,9 +27,6 @@ final class Version20240306110458 extends AbstractMigration
         $this->addSql('CREATE TABLE client (id INT AUTO_INCREMENT NOT NULL, commercial_id INT NOT NULL, reclamations_id INT DEFAULT NULL, email_client VARCHAR(25) NOT NULL, adresse_client VARCHAR(25) NOT NULL, nom_complet_client VARCHAR(25) NOT NULL, type VARCHAR(255) NOT NULL, INDEX IDX_C74404557854071C (commercial_id), INDEX IDX_C74404551853BCF7 (reclamations_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE commande (id INT AUTO_INCREMENT NOT NULL, client_id INT NOT NULL, produits_id INT NOT NULL, ref_emballage VARCHAR(15) NOT NULL, INDEX IDX_6EEAA67D19EB6921 (client_id), INDEX IDX_6EEAA67DCD11A2CF (produits_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE commercant (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE devis (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE facturation (id INT AUTO_INCREMENT NOT NULL, numero VARCHAR(50) NOT NULL, date DATE NOT NULL, frais_service DOUBLE PRECISION NOT NULL, tva DOUBLE PRECISION NOT NULL, type_facturation VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE facture (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE paiement (id INT AUTO_INCREMENT NOT NULL, client_id INT NOT NULL, nbre_versement INT NOT NULL, mode_paiement VARCHAR(15) NOT NULL, date_paiement DATE NOT NULL, INDEX IDX_B1DC7A1E19EB6921 (client_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE particulier (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE produit (id INT AUTO_INCREMENT NOT NULL, catalogue_id INT NOT NULL, code_produit VARCHAR(15) NOT NULL, description VARCHAR(25) NOT NULL, prix_usine_devise DOUBLE PRECISION NOT NULL, prix_unitaire DOUBLE PRECISION NOT NULL, qte DOUBLE PRECISION NOT NULL, qte_recue DOUBLE PRECISION NOT NULL, qte_manquante DOUBLE PRECISION NOT NULL, INDEX IDX_29A5EC274A7843DC (catalogue_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -45,8 +42,6 @@ final class Version20240306110458 extends AbstractMigration
         $this->addSql('ALTER TABLE commande ADD CONSTRAINT FK_6EEAA67D19EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('ALTER TABLE commande ADD CONSTRAINT FK_6EEAA67DCD11A2CF FOREIGN KEY (produits_id) REFERENCES produit (id)');
         $this->addSql('ALTER TABLE commercant ADD CONSTRAINT FK_ECB4268FBF396750 FOREIGN KEY (id) REFERENCES client (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE devis ADD CONSTRAINT FK_8B27C52BBF396750 FOREIGN KEY (id) REFERENCES facturation (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE facture ADD CONSTRAINT FK_FE866410BF396750 FOREIGN KEY (id) REFERENCES facturation (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE paiement ADD CONSTRAINT FK_B1DC7A1E19EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('ALTER TABLE particulier ADD CONSTRAINT FK_6CC4D4F3BF396750 FOREIGN KEY (id) REFERENCES client (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE produit ADD CONSTRAINT FK_29A5EC274A7843DC FOREIGN KEY (catalogue_id) REFERENCES catalogue (id)');
@@ -66,8 +61,6 @@ final class Version20240306110458 extends AbstractMigration
         $this->addSql('ALTER TABLE commande DROP FOREIGN KEY FK_6EEAA67D19EB6921');
         $this->addSql('ALTER TABLE commande DROP FOREIGN KEY FK_6EEAA67DCD11A2CF');
         $this->addSql('ALTER TABLE commercant DROP FOREIGN KEY FK_ECB4268FBF396750');
-        $this->addSql('ALTER TABLE devis DROP FOREIGN KEY FK_8B27C52BBF396750');
-        $this->addSql('ALTER TABLE facture DROP FOREIGN KEY FK_FE866410BF396750');
         $this->addSql('ALTER TABLE paiement DROP FOREIGN KEY FK_B1DC7A1E19EB6921');
         $this->addSql('ALTER TABLE particulier DROP FOREIGN KEY FK_6CC4D4F3BF396750');
         $this->addSql('ALTER TABLE produit DROP FOREIGN KEY FK_29A5EC274A7843DC');
@@ -79,9 +72,6 @@ final class Version20240306110458 extends AbstractMigration
         $this->addSql('DROP TABLE client');
         $this->addSql('DROP TABLE commande');
         $this->addSql('DROP TABLE commercant');
-        $this->addSql('DROP TABLE devis');
-        $this->addSql('DROP TABLE facturation');
-        $this->addSql('DROP TABLE facture');
         $this->addSql('DROP TABLE paiement');
         $this->addSql('DROP TABLE particulier');
         $this->addSql('DROP TABLE produit');

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block content_layout %}
+<div class="card">
+  <div class="card-body">
+    <div class="container mb-5 mt-3">
+      <div class="row d-flex align-items-baseline">
+        <div class="col-xl-9">
+          <p style="color: #7e8d9f;font-size: 20px;">Numero Facture: <strong>ID: #123-123</strong></p>
+        </div>
+        <div class="row">
+          <div class="col-md-9 offset-md-4">
+          <p style="color: #7e8d9f;font-size: 20px;  ">Date: <strong>12/12/2024</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="col-md-12">
+          <div class="text-center">
+            <img src="./img/LOGO-wholesales.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="" height="300px" width="500px">
+         
+          </div>
+          <br>
+        </div>
+        <div class="row">
+          <div class="col-xl-8">
+            <ul class="list-unstyled">
+              <li class="text-muted">Client: <span style="color:#8f8061 ;">John Bootstrap</span></li>
+              <li class="text-muted">Adresse: <span style="color:#8f8061 ;">State, Country</span></li>
+              <li class="text-muted">Email: <span style="color:#8f8061 ;">John Bootstrap@aaa.aaa</span></li></li>
+              <li class="text-muted"><i class="fas fa-phone"></i> 123-456-789</li>
+            </ul>
+          </div>
+          <div class="col-xl-4">
+            
+            <ul class="list-unstyled">
+              <li class="text-muted">Acheteur-Exportateur: <span style="color:#8f8061 ;">WholeSales Xpress</span> 
+              <li class="text-muted">Responsable Devis: <span style="color:#8f8061 ;">John Bootstrap</span>
+              <li class="text-muted">Email Responsable: <span style="color:#8f8061 ;">John Bootstrap@ccc.ccc</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Code Produit</th>
+                                            <th>Image Commerciale</th>
+                                            <th>Description</th>
+                                            <th>Volume Poids</th>
+                                            <th>Coût Transport</th>
+                                            <th>Prix Unitaire</th>
+                                            <th>Quantité</th>
+                                            <th>Prix XOF</th>
+                                            <th>Prix YUAN</th>
+                                            <th>Fournisseur</th>
+                                            <th>Quantité reçue</th>
+                                            <th>Quantité manquante</th>
+                                            <th>Montant Remboursement</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                   
+                                        
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+        
+{% endblock content_layout %}

@@ -5,17 +5,16 @@ namespace App\Entity;
 use App\Repository\FacturationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
 
 #[ORM\Entity(repositoryClass: FacturationRepository::class)]
 #[InheritanceType("JOINED")]
-#[DiscriminatorColumn("type_facturation")]
+#[DiscriminatorColumn("statut")]
 #[DiscriminatorMap([
-    "facturation"=>"Devis",
+    "devis"=>"Devis",
     "facture"=>"Facture" 
-    
 ])
 ]
 class Facturation
@@ -25,11 +24,11 @@ class Facturation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $numero = null;
+    #[ORM\Column(length: 100)]
+    private ?string $numero_facture = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    private ?\DateTimeInterface $date_facture = null;
 
     #[ORM\Column]
     private ?float $frais_service = null;
@@ -37,31 +36,35 @@ class Facturation
     #[ORM\Column]
     private ?float $tva = null;
 
+    #[ORM\ManyToOne(inversedBy: 'facturations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $commercial = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNumero(): ?string
+    public function getNumeroFacture(): ?string
     {
-        return $this->numero;
+        return $this->numero_facture;
     }
 
-    public function setNumero(string $numero): static
+    public function setNumeroFacture(string $numero_facture): static
     {
-        $this->numero = $numero;
+        $this->numero_facture = $numero_facture;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateFacture(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->date_facture;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDateFacture(\DateTimeInterface $date_facture): static
     {
-        $this->date = $date;
+        $this->date_facture = $date_facture;
 
         return $this;
     }
@@ -86,6 +89,18 @@ class Facturation
     public function setTva(float $tva): static
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function getCommercial(): ?User
+    {
+        return $this->commercial;
+    }
+
+    public function setCommercial(?User $commercial): static
+    {
+        $this->commercial = $commercial;
 
         return $this;
     }

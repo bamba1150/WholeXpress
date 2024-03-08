@@ -15,9 +15,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[InheritanceType("JOINED")]
 #[DiscriminatorColumn("statut")]
 #[DiscriminatorMap([
-    "tc"=>"User",
+    "tc"=>"TC",
     "cc"=>"CC" ,
     "ca"=>"CA"
+    
 ])
 ]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -59,9 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles[]="ROLE_TC";    
         $this->reclamations = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->facturations = new ArrayCollection();
     }
 
     private $statut;
+
+    #[ORM\OneToMany(mappedBy: 'commercial', targetEntity: Facturation::class)]
+    private Collection $facturations;
 
     public function getStatut(): string
     {
@@ -230,6 +235,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($client->getCommercial() === $this) {
                 $client->setCommercial(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Facturation>
+     */
+    public function getFacturations(): Collection
+    {
+        return $this->facturations;
+    }
+
+    public function addFacturation(Facturation $facturation): static
+    {
+        if (!$this->facturations->contains($facturation)) {
+            $this->facturations->add($facturation);
+            $facturation->setCommercial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacturation(Facturation $facturation): static
+    {
+        if ($this->facturations->removeElement($facturation)) {
+            // set the owning side to null (unless already changed)
+            if ($facturation->getCommercial() === $this) {
+                $facturation->setCommercial(null);
             }
         }
 

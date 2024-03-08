@@ -48,9 +48,7 @@ class Achat
     #[ORM\JoinColumn(nullable: false)]
     private ?Client $client = null;
 
-    #[ORM\ManyToOne(inversedBy: 'achats')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?CA $ca = null;
+   
 
     public function getId(): ?int
     {
@@ -189,15 +187,5 @@ class Achat
         return $this;
     }
 
-    public function getCa(): ?CA
-    {
-        return $this->ca;
-    }
-
-    public function setCa(?CA $ca): static
-    {
-        $this->ca = $ca;
-
-        return $this;
-    }
+   
 }

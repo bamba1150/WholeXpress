@@ -13,9 +13,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[InheritanceType("JOINED")]
-#[DiscriminatorColumn("statut")]
+#[DiscriminatorColumn("typeUser")]
 #[DiscriminatorMap([
-    "tc"=>"User",
+    "tc"=>"TC",
     "cc"=>"CC" ,
     "ca"=>"CA"
 ])
@@ -60,20 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reclamations = new ArrayCollection();
         $this->clients = new ArrayCollection();
     }
-
-    private $statut;
-
-    public function getStatut(): string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): self
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
+   
 
     public function getNomComplet(): ?string
     {
@@ -172,6 +159,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+   
   
 
     

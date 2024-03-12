@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\InheritanceType; 
 
 #[InheritanceType("JOINED")]
-#[DiscriminatorColumn("type")]
+#[DiscriminatorColumn("typeClient")]
 #[DiscriminatorMap([
     "commercant" => "Commercant" ,
     "particulier" => "Particulier"
@@ -22,7 +22,7 @@ class Client
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column] 
     protected ?int $id = null;
 
     #[ORM\Column(length: 25)]
@@ -59,6 +59,9 @@ class Client
 
     public function __construct()
     {
+        // Initialiser le type lors de la création de l'entité
+        $this->type = $this instanceof Particulier ? 'particulier' : 'commercant';
+
         $this->achats = new ArrayCollection();
         $this->paiements = new ArrayCollection();
         $this->catalogues = new ArrayCollection();
@@ -80,6 +83,48 @@ class Client
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[ORM\Column(length: 25)]
+    private ?string $codeClient = null;
+
+    #[ORM\PrePersist]
+    public function generateCodeClient(): void
+    {
+       // Utiliser un compteur pour générer le code client
+        $counter = count($this->commercial->getClients()) + 1;
+        $codePrefix = $this->type === 'particulier' ? 'PART' : 'COMM';
+
+        $this->codeClient = $codePrefix . sprintf('%03d', $counter);
+    }
+
+    #[ORM\Column(length: 25)]
+    private ?string $type = null;
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+
+    public function getCodeClient(): ?string
+    {
+        return $this->codeClient;
+    }
+
+    
+    public function setCodeClient(string $codeClient): static
+    {
+        $this->codeClient = $codeClient;
+
+        return $this;
     }
 
 

@@ -15,8 +15,10 @@ class CA extends User
 
    public function __construct()
    {
-        $this->roles[]="ROLE_CA";
-        $this->achats = new ArrayCollection();
+    parent::__construct();
+    $this->setRoles(['ROLE_CA']);
+    $this->achats = new ArrayCollection();
+    
    }
 
    /**

@@ -9,9 +9,5 @@ use Doctrine\ORM\Mapping as ORM;
 class Particulier extends Client
 {
   
-  public function getType()
-  {
-      return 'Particulier';
-  }
   
 }

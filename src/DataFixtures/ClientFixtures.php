@@ -1,10 +1,9 @@
 <?php
 
 namespace App\DataFixtures;
-// ...
 
-use App\Entity\Particulier;
 use App\Entity\Commercant;
+use App\Entity\Particulier;
 use App\Repository\ReclamationsRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,6 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class ClientFixtures extends Fixture implements DependentFixtureInterface
 {
+    // Injection de Dépendance
     private UserRepository $userRepo;
     private ReclamationsRepository $recRepo;
 
@@ -24,45 +24,51 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
+        // Rechercher tous les utilisateurs et réclamations
         $users = $this->userRepo->findAll();
         $reclamations = $this->recRepo->findAll();
 
-        for ($i = 1; $i <= 5; $i++) {
-            $particulier = new Particulier();
-            $particulier->setNomCompletClient("Client Client")
+        
+
+        // Création de clients Particulier
+for ($i = 1; $i <= 5; $i++) {
+    $particulier = new Particulier;
+    $particulier->setNomCompletClient("Client Client")
                 ->setEmailClient("client" . $i . "@gmail.com")
-                ->setAdresseClient("adresse")
-                ->setType("particulier"); // Définir le type ici
+                ->setAdresseClient("adresse");
 
-            $randomUser = $users[array_rand($users)];
-            $randomRec = $reclamations[array_rand($reclamations)];
 
-            $particulier->setCommercial($randomUser)
-                ->setReclamations($randomRec)
-                ->generateCodeClient(); // Appeler la méthode de génération du code client
+    // Affecter un utilisateur et une réclamation à un client
+    $randomUser = $users[array_rand($users)];
+    $randomRec = $reclamations[array_rand($reclamations)];
 
-            $manager->persist($particulier);
-        }
+    $particulier->setCommercial($randomUser)
+                ->setReclamations($randomRec);
 
-        for ($i = 6; $i <= 10; $i++) {
-            $commercant = new Commercant();
-            $commercant->setNomCompletClient("Client Client")
-                ->setEmailClient("client" . $i . "@gmail.com")
-                ->setAdresseClient("adresse")
-                ->setType("commercant"); // Définir le type ici
+    $manager->persist($particulier);
+}
 
-            $randomUser = $users[array_rand($users)];
-            $randomRec = $reclamations[array_rand($reclamations)];
+// Création de clients Commercant
+for ($i = 1; $i <= 5; $i++) {
+    $commercant = new Commercant;
+    $commercant->setNomCompletClient("Client Client")
+               ->setEmailClient("client" . ($i + 5) . "@gmail.com")
+               ->setAdresseClient("adresse");
+               
 
-            $commercant->setCommercial($randomUser)
-                ->setReclamations($randomRec)
-                ->generateCodeClient(); // Appeler la méthode de génération du code client
+    // Affecter un utilisateur et une réclamation à un client
+    $randomUser = $users[array_rand($users)];
+    $randomRec = $reclamations[array_rand($reclamations)];
 
-            $manager->persist($commercant);
-        }
+    $commercant->setCommercial($randomUser)
+               ->setReclamations($randomRec);
 
+    $manager->persist($commercant);
+}
+ 
         $manager->flush();
     }
+
     public function getDependencies()
     {
         return [

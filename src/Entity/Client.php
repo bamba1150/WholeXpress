@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\InheritanceType;
 
 #[InheritanceType("JOINED")]
-#[DiscriminatorColumn("typeClient")]
+#[DiscriminatorColumn(name:"typeClient", type:"string")]
 #[DiscriminatorMap([
     "commercant" => "Commercant" ,
     "particulier" => "Particulier"
@@ -20,6 +20,9 @@ use Doctrine\ORM\Mapping\InheritanceType;
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
 {
+
+   
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column] 
@@ -54,19 +57,37 @@ class Client
     #[ORM\Column(length: 25)]
     private ?string $nomComplet_Client = null;
 
-  
    
+
+  
+    protected static int $incrementParticulier = 1;
+    protected static int $incrementCommercant = 1;
 
     public function __construct()
     {
         // Initialiser le type lors de la création de l'entité
-        $this->type = $this instanceof Particulier ? 'particulier' : 'commercant';
+        if ($this instanceof Particulier) 
+        {
+            $this->setCodeClient('PART' . str_pad(self::$incrementParticulier, 3, '0', STR_PAD_LEFT));
+        }
+        elseif ($this instanceof Commercant) 
+        {
+            $this->setCodeClient('COM' . str_pad(self::$incrementCommercant++, 3, '0', STR_PAD_LEFT));
+        }
 
         $this->achats = new ArrayCollection();
         $this->paiements = new ArrayCollection();
         $this->catalogues = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
+    
+
+    public function getType(): string
+    {
+        return $this::class;
+    }
+
+    
 
     public function getNomCompletClient(): ?string
     {
@@ -89,29 +110,18 @@ class Client
     private ?string $codeClient = null;
 
     #[ORM\PrePersist]
-    public function generateCodeClient(): void
+    public function generateCodeClient(): string
     {
-       // Utiliser un compteur pour générer le code client
-        $counter = count($this->commercial->getClients()) + 1;
-        $codePrefix = $this->type === 'particulier' ? 'PART' : 'COMM';
-
-        $this->codeClient = $codePrefix . sprintf('%03d', $counter);
+     
+       // Logique pour générer le code client
+        $codePrefix = $this instanceof Particulier ? 'PART' : 'COM';
+        $counter = $this instanceof Particulier ? self::$incrementParticulier++ : self::$incrementCommercant++;
+        
+        return $codePrefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
     }
 
-    #[ORM\Column(length: 25)]
-    private ?string $type = null;
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    
+   
 
 
     public function getCodeClient(): ?string

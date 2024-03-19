@@ -1,17 +1,25 @@
 <?php
+// Commercant.php
 
 namespace App\Entity;
 
 use App\Repository\CommercantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use App\Repository\ReclamationsRepository;
 
 #[ORM\Entity(repositoryClass: CommercantRepository::class)]
 class Commercant extends Client
 {
-    public function __construct()
+    private UserRepository $userRepository;
+    private ReclamationsRepository $reclamationsRepository;
+
+    public function __construct(UserRepository $userRepository, ReclamationsRepository $reclamationsRepository)
     {
-        parent::__construct(); // Appeler le constructeur de la classe parente
-      
+        $this->userRepository = $userRepository;
+        $this->reclamationsRepository = $reclamationsRepository;
     }
- 
+
+    // Les autres méthodes et propriétés de la classe
 }
+

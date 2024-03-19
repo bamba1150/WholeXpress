@@ -25,6 +25,9 @@ class Catalogue
     #[ORM\OneToMany(mappedBy: 'catalogue', targetEntity: Produit::class)]
     private Collection $produits;
 
+    #[ORM\OneToOne(mappedBy: 'catalogue')]
+    private ?Commande $commande = null;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -85,6 +88,23 @@ class Catalogue
                 $produit->setCatalogue(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(Commande $commande): static
+    {
+        // set the owning side of the relation if necessary
+        if ($commande->getCatalogue() !== $this) {
+            $commande->setCatalogue($this);
+        }
+
+        $this->commande = $commande;
 
         return $this;
     }

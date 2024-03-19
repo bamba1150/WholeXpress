@@ -20,9 +20,27 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?Client $client = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\OneToOne(inversedBy: 'commande')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $produits = null;
+    private ?Catalogue $catalogue = null;
+
+    #[ORM\OneToOne(inversedBy: 'commande')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Achat $achat = null;
+
+    #[ORM\Column(length: 15)]
+    private ?string $moyen_paiement = null;
+
+    #[ORM\Column(length: 15)]
+    private ?string $nbre_versement = null;
+
+    #[ORM\Column(length: 15)]
+    private ?string $etat_commande = null;
+
+    #[ORM\Column(length: 25)]
+    private ?string $preuve_paiement = null;
+
+    
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -57,16 +75,78 @@ class Commande
         return $this;
     }
 
-    public function getProduits(): ?Produit
+    public function getCatalogue(): ?Catalogue
     {
-        return $this->produits;
+        return $this->catalogue;
     }
 
-    public function setProduits(?Produit $produits): static
+    public function setCatalogue(Catalogue $catalogue): static
     {
-        $this->produits = $produits;
+        $this->catalogue = $catalogue;
 
         return $this;
     }
+
+    public function getAchat(): ?Achat
+    {
+        return $this->achat;
+    }
+
+    public function setAchat(Achat $achat): static
+    {
+        $this->achat = $achat;
+
+        return $this;
+    }
+
+    public function getMoyenPaiement(): ?string
+    {
+        return $this->moyen_paiement;
+    }
+
+    public function setMoyenPaiement(string $moyen_paiement): static
+    {
+        $this->moyen_paiement = $moyen_paiement;
+
+        return $this;
+    }
+
+    public function getNbreVersement(): ?string
+    {
+        return $this->nbre_versement;
+    }
+
+    public function setNbreVersement(string $nbre_versement): static
+    {
+        $this->nbre_versement = $nbre_versement;
+
+        return $this;
+    }
+
+    public function getEtatCommande(): ?string
+    {
+        return $this->etat_commande;
+    }
+
+    public function setEtatCommande(string $etat_commande): static
+    {
+        $this->etat_commande = $etat_commande;
+
+        return $this;
+    }
+
+    public function getPreuvePaiement(): ?string
+    {
+        return $this->preuve_paiement;
+    }
+
+    public function setPreuvePaiement(string $preuve_paiement): static
+    {
+        $this->preuve_paiement = $preuve_paiement;
+
+        return $this;
+    }
+
+    
 
 }

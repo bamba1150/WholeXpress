@@ -1,4 +1,5 @@
 <?php
+// ClientFixtures.php
 
 namespace App\DataFixtures;
 
@@ -28,44 +29,40 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
         $users = $this->userRepo->findAll();
         $reclamations = $this->recRepo->findAll();
 
-        
-
         // Création de clients Particulier
-for ($i = 1; $i <= 5; $i++) {
-    $particulier = new Particulier;
-    $particulier->setNomCompletClient("Client Client")
-                ->setEmailClient("client" . $i . "@gmail.com")
-                ->setAdresseClient("adresse");
+        for ($i = 1; $i <= 5; $i++) {
+            $particulier = new Particulier($this->userRepo, $this->recRepo);
+            $particulier->setNomCompletClient("Client Client")
+                        ->setEmailClient("client" . $i . "@gmail.com")
+                        ->setAdresseClient("adresse");
 
+            // Affecter un utilisateur et une réclamation à un client
+            $randomUser = $users[array_rand($users)];
+            $randomRec = $reclamations[array_rand($reclamations)];
 
-    // Affecter un utilisateur et une réclamation à un client
-    $randomUser = $users[array_rand($users)];
-    $randomRec = $reclamations[array_rand($reclamations)];
+            $particulier->setCommercial($randomUser)
+                        ->setReclamations($randomRec);
 
-    $particulier->setCommercial($randomUser)
-                ->setReclamations($randomRec);
+            $manager->persist($particulier);
+        }
 
-    $manager->persist($particulier);
-}
+        // Création de clients Commercant
+        for ($i = 1; $i <= 5; $i++) {
+            $commercant = new Commercant($this->userRepo, $this->recRepo);
+            $commercant->setNomCompletClient("Client Client")
+                       ->setEmailClient("client" . ($i + 5) . "@gmail.com")
+                       ->setAdresseClient("adresse");
 
-// Création de clients Commercant
-for ($i = 1; $i <= 5; $i++) {
-    $commercant = new Commercant;
-    $commercant->setNomCompletClient("Client Client")
-               ->setEmailClient("client" . ($i + 5) . "@gmail.com")
-               ->setAdresseClient("adresse");
-               
+            // Affecter un utilisateur et une réclamation à un client
+            $randomUser = $users[array_rand($users)];
+            $randomRec = $reclamations[array_rand($reclamations)];
 
-    // Affecter un utilisateur et une réclamation à un client
-    $randomUser = $users[array_rand($users)];
-    $randomRec = $reclamations[array_rand($reclamations)];
+            $commercant->setCommercial($randomUser)
+                       ->setReclamations($randomRec);
 
-    $commercant->setCommercial($randomUser)
-               ->setReclamations($randomRec);
+            $manager->persist($commercant);
+        }
 
-    $manager->persist($commercant);
-}
- 
         $manager->flush();
     }
 
@@ -77,4 +74,6 @@ for ($i = 1; $i <= 5; $i++) {
         ];
     }
 }
+
+
 

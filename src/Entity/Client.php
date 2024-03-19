@@ -57,29 +57,43 @@ class Client
     #[ORM\Column(length: 25)]
     private ?string $nomComplet_Client = null;
 
-   
-
   
     protected static int $incrementParticulier = 1;
     protected static int $incrementCommercant = 1;
 
-    public function __construct()
+    public function __construct(ClientRepository $clientRepository)
+{
+    // Initialiser le type lors de la création de l'entité
+    if ($this instanceof Particulier) 
     {
-        // Initialiser le type lors de la création de l'entité
-        if ($this instanceof Particulier) 
-        {
-            $this->setCodeClient('PART' . str_pad(self::$incrementParticulier, 3, '0', STR_PAD_LEFT));
-        }
-        elseif ($this instanceof Commercant) 
-        {
-            $this->setCodeClient('COM' . str_pad(self::$incrementCommercant++, 3, '0', STR_PAD_LEFT));
-        }
-
-        $this->achats = new ArrayCollection();
-        $this->paiements = new ArrayCollection();
-        $this->catalogues = new ArrayCollection();
-        $this->commandes = new ArrayCollection();
+        $lastCode = $clientRepository->findLastCodeClient('PART');
+        $this->setCodeClient($this->generateNextCode($lastCode));
     }
+    elseif ($this instanceof Commercant) 
+    {
+        $lastCode = $clientRepository->findLastCodeClient('COM');
+        $this->setCodeClient($this->generateNextCode($lastCode));
+    }
+
+    $this->achats = new ArrayCollection();
+    $this->paiements = new ArrayCollection();
+    $this->catalogues = new ArrayCollection();
+    $this->commandes = new ArrayCollection();
+}
+
+public function generateNextCode(?string $lastCode): string
+{
+    if ($lastCode) {
+        $lastNumber = (int) substr($lastCode, 4); // Récupérer le numéro après le préfixe
+        $nextNumber = $lastNumber + 1;
+    } else {
+        $nextNumber = 1; // Si aucun code n'existe encore, commencer à partir de 1
+    }
+
+    // Logique pour générer le prochain code client
+    return substr($lastCode, 0, 4) . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+}
+
     
 
     public function getType(): string
@@ -109,7 +123,7 @@ class Client
     #[ORM\Column(length: 25)]
     private ?string $codeClient = null;
 
-    #[ORM\PrePersist]
+   /*  #[ORM\PrePersist]
     public function generateCodeClient(): string
     {
      
@@ -119,10 +133,9 @@ class Client
         
         return $codePrefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
     }
+ */
 
-    
    
-
 
     public function getCodeClient(): ?string
     {

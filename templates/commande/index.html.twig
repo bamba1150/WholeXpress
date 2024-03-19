@@ -1,20 +1,123 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block content_layout %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Base de Données Clientèle</h1>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/PC/WholeXpress/src/Controller/CommandeController.php</code></li>
-        <li>Your template at <code>C:/Users/PC/WholeXpress/templates/commande/index.html.twig</code></li>
-    </ul>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Table des Clients</h6>
+        </div>
+        <div class="row m-4">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Nouvelle Commande
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ref Catalogue</th>
+                            <th>Ref Emballage</th>
+                            <th>Client</th>
+                            <th>Versements</th>
+                            <th>Mode Expédition</th>
+                            <th>Moyen Paiement</th>
+                            <th>Montant Commande</th>
+                            <th>Preuve Paiement</th>
+                            <th>Etat Commande</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enregistrement Nouvelle Commande</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                 <label for="">Date Commande</label>
+                 <input type="date" name="date" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                 <br>
+                 <label for="client">Client</label>
+                                <select class="form-control" name="client" id="client">
+                                 {% for client in clients %}
+                                  <option value="{{client.id}}">
+                                    {{client.NomCompletClient}}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                 <br>                 
+                <label for="">Mode Expédition</label>
+                <select class="form-control" name="expedition" id="expedition">
+                                  <option value="dss2487-sea">DSS2487-SEA</option>
+                                  <option value="dss2487-air">DSS2487-AIR</option>
+                </select> 
+                <br>                 
+                <label for="">Moyen Paiement</label>
+                <select class="form-control" name="moyen_paiement" id="moyen_paiement">
+                                  <option value="espece">Espece</option>
+                                  <option value="bancaire">Virement Bancaire</option>
+                                  <option value="wave">Wave</option>
+                                  <option value="om">Orange Money</option>
+                                  <option value="free">Free Money</option>
+                                  <option value="cheque">Cheque</option>
+                </select>   
+                <br>  
+                <label for="">Montant Commande</label>
+                 <input type="number" name="montant" id="" class="form-control" placeholder="Entrer le montant de la commande" aria-describedby="helpId">  
+                 <br> 
+                    <label class="form-label" for="customFile">Preuve Paiement</label>
+                    <input type="file" class="form-control" id="customFile" />   
+                <br>  
+                <label for="">Etat Commande</label>
+                <select class="form-control" name="etat_commande" id="etat_commande">
+                                  <option value="enregistre">Enregistré</option>
+                                  <option value="non enregistre">Non Enregistré</option>
+                </select>        
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Attend que le modal soit affiché
+    $('#exampleModal').on('shown.bs.modal', function () {
+        // Mettre le focus sur l'élément avec l'ID myInput
+        $('#myInput').trigger('focus');
+    });
+</script>
+{% endblock content_layout %}

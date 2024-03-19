@@ -30,6 +30,24 @@ class ClientRepository extends ServiceEntityRepository
         }
     }
 
+    
+
+    public function findLastCodeClient(string $codePrefix): ?string
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c.codeClient')
+            ->where('c.codeClient LIKE :prefix')
+            ->setParameter('prefix', $codePrefix . '%')
+            ->orderBy('c.codeClient', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        $result = $query->getOneOrNullResult();
+
+        return $result ? $result['codeClient'] : null;
+    }
+
+
 //    /**
 //     * @return Client[] Returns an array of Client objects
 //     */

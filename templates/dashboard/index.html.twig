@@ -80,7 +80,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form method="POST" action="{{ path('app_cc_createClient') }}">
+                    <form method="POST" action="{{path('app_createClient')}}">
                         <div class="form-group p-4">
                             <!-- Vos champs de formulaire ici -->
                             <label for="nom">Nom Complet</label>
@@ -107,10 +107,10 @@
                             <div class="form-group">
                                 <label for="typeClient">Type de Client</label>
                                 <select class="form-control" name="typeClient" id="typeClient">
-                                  <option value="1">Particulier</option>
-                                  <option value="2">Commercant</option>
-                              
+                                    <option value="particulier">Particulier</option>
+                                    <option value="commercant">Commercant</option>
                                 </select>
+
                             </div>
                         </div>
             </div>

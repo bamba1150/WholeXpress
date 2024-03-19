@@ -26,9 +26,7 @@ class Achat
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_arrivee_est = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $preuve_paiement = null;
-
+   
     #[ORM\Column]
     private ?float $montant_TTC = null;
 
@@ -51,6 +49,9 @@ class Achat
     #[ORM\ManyToOne(inversedBy: 'achats')]
     #[ORM\JoinColumn(nullable: false)]
     private ?CA $ca = null;
+
+    #[ORM\OneToOne(mappedBy: 'achat', cascade: ['persist', 'remove'])]
+    private ?Commande $commande = null;
 
     public function getId(): ?int
     {
@@ -105,17 +106,6 @@ class Achat
         return $this;
     }
 
-    public function getPreuvePaiement(): ?string
-    {
-        return $this->preuve_paiement;
-    }
-
-    public function setPreuvePaiement(string $preuve_paiement): static
-    {
-        $this->preuve_paiement = $preuve_paiement;
-
-        return $this;
-    }
 
     public function getMontantTTC(): ?float
     {
@@ -197,6 +187,23 @@ class Achat
     public function setCa(?CA $ca): static
     {
         $this->ca = $ca;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(Commande $commande): static
+    {
+        // set the owning side of the relation if necessary
+        if ($commande->getAchat() !== $this) {
+            $commande->setAchat($this);
+        }
+
+        $this->commande = $commande;
 
         return $this;
     }

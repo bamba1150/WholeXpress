@@ -76,7 +76,7 @@ class DashboardController extends AbstractController
 
             // Gérer l'erreur de type client non défini
             $this->addFlash('error', 'Type de client non défini.');
-            return $this->redirectToRoute('app_createClient');
+            
         }
 
         return $this->redirectToRoute('app_show_dashboard');

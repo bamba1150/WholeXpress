@@ -14,10 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-     // Afficher la base de données clientèle et le dashboard
-     #[Route('/dashboard/showClient', name: 'app_show_dashboard', methods:["GET"])]
-     public function show(ClientRepository $repoClient, UserRepository $userRepository): Response
-     {
+    #[Route('/dashboard/showClient', name: 'app_show_dashboard', methods:["GET"])]
+    public function show(ClientRepository $repoClient, UserRepository $userRepository): Response
+    {
         $datas = $repoClient->findAll();
         $users = $userRepository->findAll();
     
@@ -25,16 +24,15 @@ class DashboardController extends AbstractController
 
     
         return $this->render('dashboard/index.html.twig', [
-           "datas" => $datas,
-           "users" => $users,
-           "discriminants" => $discriminants,
+            "datas" => $datas,
+            "users" => $users,
+            "discriminants" => $discriminants,
         ]);
-        return $this->redirectToRoute('app_createClient');
-     }
+    }
 
-     #[Route('/dashboard/createClient', name: 'app_createClient', methods:["POST"])]
-     public function create(Request $request, ClientRepository $repoClient, UserRepository $userRepository, ClientRepository $clientRepository): Response
-     {
+    #[Route('/dashboard/createClient', name: 'app_createClient', methods:["POST"])]
+    public function create(Request $request, ClientRepository $repoClient, UserRepository $userRepository, ClientRepository $clientRepository): Response
+    {
         if ($request->request->has("btnSave")) {
             $nomComplet_Client = $request->request->get("nom");
             $emailClient = $request->request->get("email");
@@ -58,7 +56,7 @@ class DashboardController extends AbstractController
                     ->setEmailClient($emailClient)
                     ->setAdresseClient($adresseClient)
                     ->setCommercial($commercial);
-
+                dd($nomComplet_Client,$emailClient,$adresseClient,$commercial);
                 try {
                     // Enregistrer l'entité
                     $repoClient->save($client, true);
@@ -81,7 +79,4 @@ class DashboardController extends AbstractController
 
         return $this->redirectToRoute('app_show_dashboard');
     }
-
-   
 }
-

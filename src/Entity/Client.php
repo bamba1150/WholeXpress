@@ -35,7 +35,7 @@ class Client
     protected ?string $adresseClient = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $commercial = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
@@ -94,14 +94,6 @@ public function generateNextCode(?string $lastCode): string
     return substr($lastCode, 0, 4) . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 }
 
-    
-
-    public function getType(): string
-    {
-        return $this::class;
-    }
-
-    
 
     public function getNomCompletClient(): ?string
     {

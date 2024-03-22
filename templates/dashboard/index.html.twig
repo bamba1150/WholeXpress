@@ -41,10 +41,10 @@
                                     <tbody>
                                     {% for key, client in datas %}
                                         <tr>
-                                            <td>{{client.CodeClient}}</td>
-                                            <td>{{client.NomCompletClient}}</td>
-                                            <td>{{client.EmailClient}}</td>
-                                            <td>{{client.AdresseClient}}</td>
+                                            <td>{{client.codeClient}}</td>
+                                            <td>{{client.nomCompletClient}}</td>
+                                            <td>{{client.emailClient}}</td>
+                                            <td>{{client.adresseClient}}</td>
                                             <td>{{client.getCommercial().getNomComplet()}}</td>
                                              <td>{{ discriminants[key]|split('\\')|last }}</td>
                                             
@@ -125,11 +125,10 @@
 
                 
                 <script>
-                    $('#exampleModal').on('show.bs.modal', event => {
-                        var button = $(event.relatedTarget);
-                        var modal = $(this);
-                        // Use above variables to manipulate the DOM
-                        
-                    });
+                   $('#modelId').on('show.bs.modal', event => {
+    var button = $(event.relatedTarget);
+    var modal = $(this);
+    // Use above variables to manipulate the DOM
+});
                 </script>
 {% endblock content_layout %}

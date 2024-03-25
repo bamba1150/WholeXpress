@@ -17,18 +17,14 @@ class Achat
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 11)]
+    #[ORM\Column(length: 25)]
     private ?string $mode_expedition = null;
 
-    #[ORM\Column(length: 11)]
-    private ?string $code_sortie = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_arrivee_est = null;
+    private ?\DateTimeInterface $date_arrivee_estimee = null;
 
-   
     #[ORM\Column]
-    private ?float $montant_TTC = null;
+    private ?float $montant_ttc = null;
 
     #[ORM\Column]
     private ?float $frais_transport = null;
@@ -36,22 +32,23 @@ class Achat
     #[ORM\Column]
     private ?float $frais_fournisseur = null;
 
-    #[ORM\Column(length: 11)]
+    #[ORM\Column(length: 15)]
     private ?string $etat_achat = null;
 
-    #[ORM\Column(length: 11)]
-    private ?string $etat_comm = null;
-
-    #[ORM\ManyToOne(inversedBy: 'achats')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Client $client = null;
+    #[ORM\Column(length: 15)]
+    private ?string $etat_communication = null;
 
     #[ORM\ManyToOne(inversedBy: 'achats')]
     #[ORM\JoinColumn(nullable: false)]
     private ?CA $ca = null;
 
-    #[ORM\OneToOne(mappedBy: 'achat', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'achat')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Commande $commande = null;
+
+    #[ORM\ManyToOne(inversedBy: 'achats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
 
     public function getId(): ?int
     {
@@ -82,39 +79,26 @@ class Achat
         return $this;
     }
 
-    public function getCodeSortie(): ?string
+    public function getDateArriveeEstimee(): ?\DateTimeInterface
     {
-        return $this->code_sortie;
+        return $this->date_arrivee_estimee;
     }
 
-    public function setCodeSortie(string $code_sortie): static
+    public function setDateArriveeEstimee(\DateTimeInterface $date_arrivee_estimee): static
     {
-        $this->code_sortie = $code_sortie;
+        $this->date_arrivee_estimee = $date_arrivee_estimee;
 
         return $this;
     }
 
-    public function getDateArriveeEst(): ?\DateTimeInterface
+    public function getMontantTtc(): ?float
     {
-        return $this->date_arrivee_est;
+        return $this->montant_ttc;
     }
 
-    public function setDateArriveeEst(\DateTimeInterface $date_arrivee_est): static
+    public function setMontantTtc(float $montant_ttc): static
     {
-        $this->date_arrivee_est = $date_arrivee_est;
-
-        return $this;
-    }
-
-
-    public function getMontantTTC(): ?float
-    {
-        return $this->montant_TTC;
-    }
-
-    public function setMontantTTC(float $montant_TTC): static
-    {
-        $this->montant_TTC = $montant_TTC;
+        $this->montant_ttc = $montant_ttc;
 
         return $this;
     }
@@ -155,26 +139,14 @@ class Achat
         return $this;
     }
 
-    public function getEtatComm(): ?string
+    public function getEtatCommunication(): ?string
     {
-        return $this->etat_comm;
+        return $this->etat_communication;
     }
 
-    public function setEtatComm(string $etat_comm): static
+    public function setEtatCommunication(string $etat_communication): static
     {
-        $this->etat_comm = $etat_comm;
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): static
-    {
-        $this->client = $client;
+        $this->etat_communication = $etat_communication;
 
         return $this;
     }
@@ -198,12 +170,19 @@ class Achat
 
     public function setCommande(Commande $commande): static
     {
-        // set the owning side of the relation if necessary
-        if ($commande->getAchat() !== $this) {
-            $commande->setAchat($this);
-        }
-
         $this->commande = $commande;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }

@@ -55,8 +55,8 @@ class CommandeFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class,
-            ClientFixtures::class
+            ClientFixtures::class,
+            CatalogueFixtures::class
         ];
     }
 }

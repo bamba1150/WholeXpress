@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Commercant;
 use App\Entity\Particulier;
+use App\Repository\ClientRepository;
 use App\Repository\ReclamationsRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,11 +17,13 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
     // Injection de Dépendance
     private UserRepository $userRepo;
     private ReclamationsRepository $recRepo;
+    private ClientRepository $clientRepository;
 
-    public function __construct(UserRepository $userRepo, ReclamationsRepository $recRepo)
+    public function __construct(UserRepository $userRepo, ReclamationsRepository $recRepo, ClientRepository $clientRepository)
     {
         $this->userRepo = $userRepo;
         $this->recRepo = $recRepo;
+        $this->clientRepository = $clientRepository;
     }
 
     public function load(ObjectManager $manager): void
@@ -31,7 +34,7 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
 
         // Création de clients Particulier
         for ($i = 1; $i <= 5; $i++) {
-            $particulier = new Particulier($this->userRepo, $this->recRepo);
+            $particulier = new Particulier($this->clientRepository, $this->recRepo);
             $particulier->setNomCompletClient("Client Client")
                         ->setEmailClient("client" . $i . "@gmail.com")
                         ->setAdresseClient("adresse");
@@ -48,7 +51,7 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
 
         // Création de clients Commercant
         for ($i = 1; $i <= 5; $i++) {
-            $commercant = new Commercant($this->userRepo, $this->recRepo);
+            $commercant = new Commercant($this->clientRepository , $this->recRepo);
             $commercant->setNomCompletClient("Client Client")
                        ->setEmailClient("client" . ($i + 5) . "@gmail.com")
                        ->setAdresseClient("adresse");

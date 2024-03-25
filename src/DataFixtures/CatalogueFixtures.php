@@ -6,9 +6,10 @@ namespace App\DataFixtures;
 use App\Entity\Catalogue;
 use App\Repository\ClientRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CatalogueFixtures extends Fixture
+class CatalogueFixtures extends Fixture implements DependentFixtureInterface
 {
     private ClientRepository $clientRepository;
     public function __construct(ClientRepository $clientRepository)
@@ -37,5 +38,11 @@ class CatalogueFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+    public function getDependencies()
+    {
+        return [
+            ClientFixtures::class,
+        ];
     }
 }

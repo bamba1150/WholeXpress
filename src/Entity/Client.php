@@ -42,11 +42,7 @@ class Client
     #[ORM\JoinColumn(nullable: true)]
     private ?Reclamations $reclamations = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Achat::class)]
-    private Collection $achats;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Paiement::class)]
-    private Collection $paiements;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Catalogue::class)]
     private Collection $catalogues;
@@ -75,10 +71,10 @@ class Client
         $this->setCodeClient($this->generateNextCode($lastCode));
     }
 
-    $this->achats = new ArrayCollection();
     $this->paiements = new ArrayCollection();
     $this->catalogues = new ArrayCollection();
     $this->commandes = new ArrayCollection();
+    $this->achats = new ArrayCollection();
 }
 
 public function generateNextCode(?string $lastCode): string
@@ -114,6 +110,9 @@ public function generateNextCode(?string $lastCode): string
 
     #[ORM\Column(length: 25)]
     private ?string $codeClient = null;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Achat::class)]
+    private Collection $achats;
 
    /*  #[ORM\PrePersist]
     public function generateCodeClient(): string
@@ -191,35 +190,11 @@ public function generateNextCode(?string $lastCode): string
         return $this;
     }
 
-    /**
-     * @return Collection<int, Achat>
-     */
-    public function getAchats(): Collection
-    {
-        return $this->achats;
-    }
+    
 
-    public function addAchat(Achat $achat): static
-    {
-        if (!$this->achats->contains($achat)) {
-            $this->achats->add($achat);
-            $achat->setClient($this);
-        }
 
-        return $this;
-    }
 
-    public function removeAchat(Achat $achat): static
-    {
-        if ($this->achats->removeElement($achat)) {
-            // set the owning side to null (unless already changed)
-            if ($achat->getClient() === $this) {
-                $achat->setClient(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, Paiement>
@@ -229,27 +204,7 @@ public function generateNextCode(?string $lastCode): string
         return $this->paiements;
     }
 
-    public function addPaiement(Paiement $paiement): static
-    {
-        if (!$this->paiements->contains($paiement)) {
-            $this->paiements->add($paiement);
-            $paiement->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removePaiement(Paiement $paiement): static
-    {
-        if ($this->paiements->removeElement($paiement)) {
-            // set the owning side to null (unless already changed)
-            if ($paiement->getClient() === $this) {
-                $paiement->setClient(null);
-            }
-        }
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection<int, Catalogue>
@@ -318,4 +273,34 @@ public function generateNextCode(?string $lastCode): string
         return $this->commercial->getNomComplet(); 
 
    }
+
+    /**
+     * @return Collection<int, Achat>
+     */
+    public function getAchats(): Collection
+    {
+        return $this->achats;
+    }
+
+    public function addAchat(Achat $achat): static
+    {
+        if (!$this->achats->contains($achat)) {
+            $this->achats->add($achat);
+            $achat->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchat(Achat $achat): static
+    {
+        if ($this->achats->removeElement($achat)) {
+            // set the owning side to null (unless already changed)
+            if ($achat->getClient() === $this) {
+                $achat->setClient(null);
+            }
+        }
+
+        return $this;
+    }
 }

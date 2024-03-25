@@ -16,8 +16,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[DiscriminatorColumn("typeUser")]
 #[DiscriminatorMap([
     "tc"=>"TC",
-    "cc"=>"CC" ,
-    "ca"=>"CA"
+    "cc"=>"CC",
+    "ca"=> "CA"
+   
 ])
 ]
 #[ORM\Entity(repositoryClass: UserRepository::class)]

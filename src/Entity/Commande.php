@@ -24,10 +24,7 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?Catalogue $catalogue = null;
 
-    #[ORM\OneToOne(inversedBy: 'commande')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Achat $achat = null;
-
+   
     #[ORM\Column(length: 15)]
     private ?string $moyen_paiement = null;
 
@@ -39,6 +36,9 @@ class Commande
 
     #[ORM\Column(length: 25)]
     private ?string $preuve_paiement = null;
+
+    #[ORM\OneToOne(mappedBy: 'commande')]
+    private ?Achat $achat = null;
 
     
 

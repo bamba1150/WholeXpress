@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\User;
-use App\Entity\Client;
+
 use App\Entity\Commercant;
 use App\Entity\Particulier;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,8 +33,11 @@ public function show(ClientRepository $repoClient, UserRepository $userRepositor
     $datas = $repoClient->findAll();
     $users = $userRepository->findAll();
 
-    $discriminants = array_map(fn($client) => $client->getType(), $datas);
-
+    // Collecte des discriminants à partir de chaque client
+    $discriminants = [];
+    foreach ($datas as $client) {
+        $discriminants[] = $client->getTypeClient();
+    }
     return $this->render('dashboard/index.html.twig', [
         "datas" => $datas,
         "users" => $users,

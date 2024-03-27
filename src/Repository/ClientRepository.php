@@ -47,6 +47,18 @@ class ClientRepository extends ServiceEntityRepository
         return $result ? $result['codeClient'] : null;
     }
 
+  /*   public function getAvailableDiscriminants(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery('
+            SELECT DISTINCT c.typeClient
+            FROM App\Entity\Client c
+        ');
+
+        return $query->getResult();
+    } */
+
 
 //    /**
 //     * @return Client[] Returns an array of Client objects

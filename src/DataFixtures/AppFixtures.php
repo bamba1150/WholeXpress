@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\Query\Expr\GroupBy;
 use Doctrine\Persistence\ObjectManager;
 
 

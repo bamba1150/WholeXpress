@@ -52,43 +52,30 @@ class Client
 
     #[ORM\Column(length: 25)]
     private ?string $nomComplet_Client = null;
-
+    
+    #[ORM\Column(length: 25)]
+    private ?string $codeClient = null;
   
-    protected static int $incrementParticulier = 1;
-    protected static int $incrementCommercant = 1;
+    protected static array $codeCounter = [
+        'particulier' => 1,
+        'commercant' => 1
+    ];
 
-    public function __construct(ClientRepository $clientRepository)
-{
-    // Initialiser le type lors de la création de l'entité
-    if ($this instanceof Particulier) 
+    public function __construct()
     {
-        $lastCode = $clientRepository->findLastCodeClient('PART');
-        $this->setCodeClient($this->generateNextCode($lastCode));
+        $this->catalogues = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->achats = new ArrayCollection();
     }
-    elseif ($this instanceof Commercant) 
+
+    public function generateNextCode(string $type): string
     {
-        $lastCode = $clientRepository->findLastCodeClient('COM');
-        $this->setCodeClient($this->generateNextCode($lastCode));
+        $codePrefix = ($type === 'particulier') ? 'PART' : 'COM';
+        $counter = self::$codeCounter[$type]++;
+        return $codePrefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
     }
 
-    $this->paiements = new ArrayCollection();
-    $this->catalogues = new ArrayCollection();
-    $this->commandes = new ArrayCollection();
-    $this->achats = new ArrayCollection();
-}
-
-public function generateNextCode(?string $lastCode): string
-{
-    if ($lastCode) {
-        $lastNumber = (int) substr($lastCode, 4); // Récupérer le numéro après le préfixe
-        $nextNumber = $lastNumber + 1;
-    } else {
-        $nextNumber = 1; // Si aucun code n'existe encore, commencer à partir de 1
-    }
-
-    // Logique pour générer le prochain code client
-    return substr($lastCode, 0, 4) . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-}
+    
 
 
     public function getNomCompletClient(): ?string
@@ -108,24 +95,12 @@ public function generateNextCode(?string $lastCode): string
         return $this->id;
     }
 
-    #[ORM\Column(length: 25)]
-    private ?string $codeClient = null;
-
+   
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Achat::class)]
     private Collection $achats;
 
-   /*  #[ORM\PrePersist]
-    public function generateCodeClient(): string
-    {
-     
-       // Logique pour générer le code client
-        $codePrefix = $this instanceof Particulier ? 'PART' : 'COM';
-        $counter = $this instanceof Particulier ? self::$incrementParticulier++ : self::$incrementCommercant++;
-        
-        return $codePrefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
-    }
- */
-
+    
+ 
    
 
     public function getCodeClient(): ?string
@@ -190,19 +165,6 @@ public function generateNextCode(?string $lastCode): string
         return $this;
     }
 
-    
-
-
-
-    
-
-    /**
-     * @return Collection<int, Paiement>
-     */
-    public function getPaiements(): Collection
-    {
-        return $this->paiements;
-    }
 
    
 

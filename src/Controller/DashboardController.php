@@ -1,116 +1,73 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\User;
 
-use App\Entity\Commercant;
-use App\Entity\Particulier;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Entity\Client;
+use App\Entity\User;
 use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardController extends AbstractController
 {
+    private $entityManager;
     private $clientRepository;
+    private $userRepository;
 
-    public function __construct(ClientRepository $clientRepository)
+    public function __construct(EntityManagerInterface $entityManager, ClientRepository $clientRepository, UserRepository $userRepository)
     {
+        $this->entityManager = $entityManager;
         $this->clientRepository = $clientRepository;
+        $this->userRepository = $userRepository;
     }
 
-    #[Route('/dashboard/showClient', name: 'app_show_dashboard', methods:["GET"])]
-public function show(ClientRepository $repoClient, UserRepository $userRepository): Response
-{
-    $datas = $repoClient->findAll();
-    $users = $userRepository->findAll();
-
-    // Collecte des discriminants à partir de chaque client
-    $discriminants = [];
-    foreach ($datas as $client) {
-        $discriminants[] = $client->getTypeClient();
-    }
-    return $this->render('dashboard/index.html.twig', [
-        "datas" => $datas,
-        "users" => $users,
-        "discriminants" => $discriminants,
-    ]);
-}
-
-    
-    
-
-    #[Route('/dashboard/createClient', name: 'app_createClient', methods:["POST"])]
-    public function create(Request $request, EntityManagerInterface $entityManager, ClientRepository $clientRepository, UserRepository $userRepository): Response
+    #[Route('/dashboard/createClient', name: 'app_createClient', methods: ['POST'])]
+    public function createClient(Request $request): Response
     {
-        $datas = $clientRepository->findAll();
-        $users = $userRepository->findAll();
+        // Récupération des données du formulaire
+        $nom = $request->request->get('nom');
+        $email = $request->request->get('email');
+        $adresse = $request->request->get('adresse');
+        $commercialId = $request->request->get('commercial');
+        $typeClient = $request->request->get('typeClient');
 
-        // Création du formulaire
-        $form = $this->createFormBuilder()
-            ->add('nom', TextType::class, ['label' => 'Nom Complet'])
-            ->add('email', EmailType::class, ['label' => 'Email'])
-            ->add('adresse', TextType::class, ['label' => 'Adresse'])
-            ->add('commercial', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'nomComplet',
-                'label' => 'Commercial en Charge'
-            ])
-            ->add('typeClient', ChoiceType::class, [
-                'choices' => [
-                    'Particulier' => 'particulier',
-                    'Commercant' => 'commercant',
-                ],
-                'label' => 'Type de Client'
-            ])
-            ->add('enregistrer', SubmitType::class, ['attr' => ['class' => 'btn btn-success']])
-            ->getForm();
+        // Récupération de l'utilisateur commercial en charge
+        $commercial = $this->userRepository->find($commercialId);
+
+        // Création d'une nouvelle instance de Client
+        $client = new Client();
+        $client->setNomCompletClient($nom);
+        $client->setEmailClient($email);
+        $client->setAdresseClient($adresse);
+        $client->setCommercial($commercial); // Association du commercial
+        $client->setCodeClient($client->generateNextCode($typeClient)); // Génération du code client
+
+        // Gestion du type de client (particulier ou commerçant)
+        // Vous pouvez ajouter d'autres traitements spécifiques ici si nécessaire
+dd($typeClient);
+        // Sauvegarde du client en base de données
+        $this->entityManager->persist($client);
+        $this->entityManager->flush();
+
+        // Redirection vers une page de confirmation ou une autre page de votre choix
+        return $this->redirectToRoute('app_show_dashboard');
+    }
+
+    #[Route('/dashboard/showClient', name: 'app_show_dashboard', methods: ['GET'])]
+    public function show(): Response
+    {
+        $datas = $this->clientRepository->findAll();
+        $users = $this->userRepository->findAll();
         
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer les données soumises
-            $data = $form->getData();
-    
-            // Déterminer le type de client en fonction des données soumises
-            if ($data['typeClient'] === 'particulier') {
-                // Créer un nouveau client Particulier
-                $client = new Particulier($this->clientRepository);
-            } else {
-                // Créer un nouveau client Commercant
-                $client = new Commercant($this->clientRepository);
-            }
-         
-            // Assigner les données à l'entité Client
-            $client->setNomCompletClient($data['nom']);
-            $client->setEmailClient($data['email']);
-            $client->setAdresseClient($data['adresse']);
-            $client->setCommercial($data['commercial']);
-            
-            // Sauvegarder le client
-            $entityManager->persist($client);
-            $entityManager->flush();
-          
-            $this->addFlash('success', 'Client enregistré avec succès.');
-    
-            return $this->redirectToRoute('app_show_dashboard');
-        }
     
         return $this->render('dashboard/index.html.twig', [
-            'form' => $form->createView(),
-            'datas' => $datas,
-            'users' => $users
+            "datas" => $datas,
+            "users" => $users,
+            
         ]);
     }
-    
-    
-    
 }

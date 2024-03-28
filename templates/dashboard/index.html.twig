@@ -42,7 +42,7 @@
                             <td>{{ client.emailClient }}</td>
                             <td>{{ client.adresseClient }}</td>
                             <td>{{ client.commercial.nomComplet }}</td>
-                            <td>{{ client.typeClient }}</td>
+                            <td>{{ client.getTypeClient() }}</td>
                             <td style="width: 200px;">
                                 <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#clientDetailsModal{{ client.id }}">Détails</a>
                                 <a href="#" class="btn btn-danger btn-sm">Supprimer</a>

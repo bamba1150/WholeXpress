@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
@@ -39,6 +40,15 @@ class Commande
 
     #[ORM\OneToOne(mappedBy: 'commande')]
     private ?Achat $achat = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column]
+    private ?float $montantCommande = null;
+
+    #[ORM\Column(length: 25)]
+    private ?string $expedition = null;
 
     
 
@@ -143,6 +153,42 @@ class Commande
     public function setPreuvePaiement(string $preuve_paiement): static
     {
         $this->preuve_paiement = $preuve_paiement;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getMontantCommande(): ?float
+    {
+        return $this->montantCommande;
+    }
+
+    public function setMontantCommande(float $montantCommande): static
+    {
+        $this->montantCommande = $montantCommande;
+
+        return $this;
+    }
+
+    public function getExpedition(): ?string
+    {
+        return $this->expedition;
+    }
+
+    public function setExpedition(string $expedition): static
+    {
+        $this->expedition = $expedition;
 
         return $this;
     }

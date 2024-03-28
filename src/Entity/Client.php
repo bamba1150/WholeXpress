@@ -56,10 +56,10 @@ class Client
     #[ORM\Column(length: 25)]
     private ?string $codeClient = null;
   
-    protected static array $codeCounter = [
+    /* protected static array $codeCounter = [
         'particulier' => 1,
         'commercant' => 1
-    ];
+    ]; */
 
     public function __construct()
     {
@@ -68,11 +68,9 @@ class Client
         $this->achats = new ArrayCollection();
     }
 
-    public function generateNextCode(string $type): string
+    public function generateNextCode(): string
     {
-        $codePrefix = ($type === 'particulier') ? 'PART' : 'COM';
-        $counter = self::$codeCounter[$type]++;
-        return $codePrefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
+        return '';
     }
 
     
@@ -264,5 +262,16 @@ class Client
         }
 
         return $this;
+    }
+    public function getTypeClient(): string
+    {
+        if ($this instanceof Particulier) {
+            return 'Particulier';
+        } elseif ($this instanceof Commercant) {
+            return 'Commercant';
+        } else {
+            // Gérer le cas où le type de client n'est pas reconnu
+            return 'Inconnu';
+        }
     }
 }

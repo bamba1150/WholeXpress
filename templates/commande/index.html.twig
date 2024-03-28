@@ -33,26 +33,28 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for commande in commandes %}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ commande.date }}</td>
+                            <td>{{ commande.catalogue.ref }}</td>
+                            <td>{{ commande.refEmballage }}</td>
+                            <td>{{ commande.client.nomComplet_Client }}</td>
+                            <td>{{ commande.nbreVersement }}</td>
+                            <td>{{ commande.expedition }}</td>
+                            <td>{{ commande.moyenPaiement }}</td>
+                            <td>{{ commande.montant }}</td>
+                            <td>{{ commande.preuvePaiement }}</td>
+                            <td>{{ commande.etatCommande }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Modal -->
+<form action="{{ path('app_createCommande') }}" method="POST">
 <div class="modal fade" id="modalCommande" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -75,7 +77,17 @@
                                   </option>
                                   {% endfor %}
                                 </select>
-                 <br>                 
+                 <br>        
+                 <label for="catalogue">Catalogue</label>
+                    <select class="form-control" name="catalogue" id="catalogue">
+                        {% for catalogue in catalogues %}
+                            <option value="{{ catalogue.id }}">
+                                {{ catalogue.ref }}
+                            </option>
+                        {% endfor %}
+                    </select>     
+
+                 <br>      
                 <label for="">Mode Expédition</label>
                 <select class="form-control" name="expedition" id="expedition">
                                   <option value="dss2487-sea">DSS2487-SEA</option>
@@ -107,11 +119,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Enregistrer</button>
+                <button type="submit" class="btn btn-primary" >Enregistrer</button>
             </div>
         </div>
     </div>
 </div>
+</form>
 
 
 {% endblock content_layout %}
+
